@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 27001 Implementation Plan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1A237E 0%, #303F9F 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(26, 35, 126, 0.15);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1A237E, #303F9F);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            margin-right: 20px;
+        }
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 60px;
+            background: #E91E63;
+            border-radius: 30px 0 0 30px;
+        }
+        .logo-text {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -1px;
+        }
+        .section-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 4em;
+            font-weight: 900;
+            color: rgba(255,255,255,0.1);
+            line-height: 1;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.4em;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            margin: 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        .deadline-alert {
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            color: white;
+            padding: 18px 40px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-left: 4px solid #AD1457;
+        }
+        .overview {
+            padding: 40px;
+            background: #FAFAFA;
+        }
+        .overview h2 {
+            color: #1A237E;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+            position: relative;
+        }
+        .overview h2::before {
+            content: '01';
+            position: absolute;
+            left: -60px;
+            top: -10px;
+            font-size: 3em;
+            font-weight: 900;
+            color: rgba(26, 35, 126, 0.1);
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .overview-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(26, 35, 126, 0.08);
+            border-top: 3px solid #E91E63;
+            transition: transform 0.2s ease;
+        }
+        .overview-card:hover {
+            transform: translateY(-2px);
+        }
+        .overview-card h3 {
+            color: #1A237E;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .overview-card .date {
+            font-size: 2.4em;
+            font-weight: 700;
+            color: #E91E63;
+            margin: 15px 0;
+            line-height: 1;
+        }
+        .overview-card .status {
+            background: #E91E63;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .overview-card p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 0.9em;
+        }
+        .gantt-section {
+            padding: 40px;
+        }
+        .gantt-section h2 {
+            color: #1A237E;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+            position: relative;
+        }
+        .gantt-section h2::before {
+            content: '02';
+            position: absolute;
+            left: -60px;
+            top: -10px;
+            font-size: 3em;
+            font-weight: 900;
+            color: rgba(26, 35, 126, 0.1);
+        }
+        .gantt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.08);
+        }
+        .gantt-table th {
+            background: #1A237E;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .gantt-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #F5F5F5;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .task-name {
+            text-align: left;
+            font-weight: 500;
+            background-color: #FAFAFA;
+            color: #1A237E;
+            width: 280px;
+            border-right: 2px solid #E0E0E0;
+            padding-left: 20px;
+        }
+        .bar {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 11px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .documentation { 
+            background: #1A237E;
+        }
+        .implementation { 
+            background: #E91E63;
+        }
+        .operation { 
+            background: #303F9F;
+        }
+        .audit { 
+            background: #C2185B;
+        }
+        .milestone { 
+            background: linear-gradient(135deg, #E91E63, #1A237E);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 10px 16px;
+        }
+        .phase-header {
+            background: linear-gradient(135deg, #1A237E, #303F9F);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .ongoing {
+            background: #E91E63;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        .considerations {
+            padding: 40px;
+            background: #FAFAFA;
+        }
+        .considerations h2 {
+            color: #1A237E;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+            position: relative;
+        }
+        .considerations h2::before {
+            content: '03';
+            position: absolute;
+            left: -60px;
+            top: -10px;
+            font-size: 3em;
+            font-weight: 900;
+            color: rgba(26, 35, 126, 0.1);
+        }
+        .considerations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .consideration-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(26, 35, 126, 0.08);
+            border-left: 4px solid #E91E63;
+            transition: transform 0.2s ease;
+        }
+        .consideration-card:hover {
+            transform: translateY(-2px);
+        }
+        .consideration-card h3 {
+            color: #1A237E;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        .consideration-card .icon {
+            font-size: 1.4em;
+            margin-right: 12px;
+            color: #E91E63;
+        }
+        .consideration-card p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        .footer {
+            background: #1A237E;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .footer h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.4em;
+        }
+        .footer p {
+            margin: 12px 0;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        .footer strong {
+            color: #E91E63;
+        }
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #E91E63, #1A237E);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="section-number">00</div>
+            <div class="logo">
+                <div class="logo-circle"></div>
+                <div class="logo-text">Distributed</div>
+            </div>
+            <h1>ISO 27001 Implementation Plan</h1>
+            <p>Strategic Information Security Initiative</p>
+        </div>
+        
+        <div class="deadline-alert">
+            🚨 CRITICAL DEADLINE: DataGuard Contract Ends April 2026 🚨
+        </div>
+        
+        <div class="overview">
+            <h2>Project Timeline</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Foundation Phase</h3>
+                    <div class="date">Jun-Aug</div>
+                    <div class="status">Ongoing</div>
+                    <p>Currently in progress</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Target Certification</h3>
+                    <div class="date">Mar 2026</div>
+                    <p>1 Month Buffer Before Deadline</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Contract Deadline</h3>
+                    <div class="date">Apr 2026</div>
+                    <p>DataGuard Support Ends</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gantt-section">
+            <h2>Implementation Timeline</h2>
+            <div class="divider"></div>
+            <table class="gantt-table">
+                <thead>
+                    <tr>
+                        <th>Phase / Activity</th>
+                        <th>Jun 2025</th>
+                        <th>Jul 2025</th>
+                        <th>Aug 2025</th>
+                        <th>Sep 2025</th>
+                        <th>Oct 2025</th>
+                        <th>Nov 2025</th>
+                        <th>Dec 2025</th>
+                        <th>Jan 2026</th>
+                        <th>Feb 2026</th>
+                        <th>Mar 2026</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="phase-header" colspan="11">Phase 1: Foundation & Documentation (ONGOING)</td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Organization Setup & Context Review</td>
+                        <td class="bar ongoing">Active</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Policy Development & Risk Assessment</td>
+                        <td></td>
+                        <td class="bar documentation">Policies</td>
+                        <td class="bar documentation">Risk</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">📋 Documentation Complete</td>
+                        <td></td>
+                        <td></td>
+                        <td class="milestone">✓</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="phase-header" colspan="11">Phase 2: Implementation & Training</td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Security Controls Implementation</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bar implementation">Controls</td>
+                        <td class="bar implementation">Systems</td>
+                        <td class="bar implementation">Testing</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Team Training & Awareness Program</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bar implementation">Training</td>
+                        <td class="bar implementation">Workshops</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">🚀 ISMS Fully Operational</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="milestone">✓</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="phase-header" colspan="11">Phase 3: 3-Month Operation & Certification</td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Mandatory 3-Month Operation Period</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bar operation">Operate</td>
+                        <td class="bar operation">Monitor</td>
+                        <td class="bar operation">Evidence</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">Stage 1 & 2 Certification Audits</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bar audit">Certify</td>
+                    </tr>
+                    <tr>
+                        <td class="task-name">🏆 ISO 27001 Certification Achieved</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="milestone">🏆</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="considerations">
+            <h2>Key Implementation Considerations</h2>
+            <div class="divider"></div>
+            <div class="considerations-grid">
+                <div class="consideration-card">
+                    <h3><span class="icon">⏰</span>ISO 27001 Mandatory Requirements</h3>
+                    <p>The standard requires a minimum of 3 months of operational evidence before Stage 2 audit. This cannot be accelerated and drives our December 2025 go-live date.</p>
+                </div>
+                <div class="consideration-card">
+                    <h3><span class="icon">📅</span>DataGuard Contract Deadline</h3>
+                    <p>Support contract ends April 2026. Certification must be completed by March 2026 to ensure full support throughout the audit process.</p>
+                </div>
+                <div class="consideration-card">
+                    <h3><span class="icon">🎯</span>Critical Path Dependencies</h3>
+                    <p>Documentation completion in August 2025 is essential. Any delays cascade through implementation and jeopardize the March 2026 certification target.</p>
+                </div>
+                <div class="consideration-card">
+                    <h3><span class="icon">🔄</span>Audit Scheduling Buffer</h3>
+                    <p>March 2026 target provides 1-month buffer for audit scheduling, potential remediation, and any unforeseen delays before contract expiry.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h3>Critical Success Factors</h3>
+            <div class="divider"></div>
+            <p><strong>Foundation Phase Progress:</strong> Currently underway - maintain momentum</p>
+            <p><strong>Resource Commitment:</strong> Consistent 2 hours daily allocation essential</p>
+            <p><strong>DataGuard Coordination:</strong> Weekly reviews to ensure timeline adherence</p>
+        </div>
+    </div>
+</body>
+</html>
